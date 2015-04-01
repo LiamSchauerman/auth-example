@@ -1,11 +1,6 @@
-#container {
+.container {
 	width: 1000px;
 	border: 3px solid black;
 	margin: auto;
 	min-height: 400px;
-}
-
-form label {
-	min-width: 800px;
-	border : 1px solid green;
 }

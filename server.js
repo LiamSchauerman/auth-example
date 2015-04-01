@@ -5,8 +5,7 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	bodyParser = require('body-parser'),
 	bcrypt = require('bcrypt'),
-	db = require("./config/db.js")
-
+	db = require("./config/db.js");
 
 var app = express();
 var port = process.env.PORT || 9000;
@@ -15,14 +14,19 @@ var port = process.env.PORT || 9000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-app.set('views', __dirname + '/public/views')
+app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
+app.use(cookieParser());
 
 // connect mongo
 mongoose.connect(db.urlLocal); // connect to our database
 
 // configure passport
-require('./config/auth.js')(passport)
+require('./config/auth.js')(passport);
+
+app.use(session({ secret: 'mysecret' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // configure routes
 require('./routes.js')(app, passport);
